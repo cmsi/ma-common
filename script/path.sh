@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(pwd)
 PACKAGE=$(echo $(basename $SCRIPT_DIR) | sed 's/ma-//g')
-VERSION=$(head -1 $SCRIPT_DIR/build/debian/changelog | sed 's/1://g' | cut -d ' ' -f 2 | sed 's/[()]//g')
+VERSION=$(head -1 $SCRIPT_DIR/debian/changelog | sed 's/1://g' | cut -d ' ' -f 2 | sed 's/[()]//g')
 VERSION_BASE=$(echo $VERSION | cut -d '-' -f 1)
 
 echo "PACKAGE: $PACKAGE"

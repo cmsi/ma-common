@@ -10,14 +10,14 @@ case ${ARCH} in
         dpkg-buildpackage -us -uc
         mv -f ../${PACKAGE}_${VERSION}_${ARCH}.changes ../${PACKAGE}_${VERSION}_${ARCH}.changes.orig
         awk '$3!="debug" {print}' ../${PACKAGE}_${VERSION}_${ARCH}.changes.orig > ../${PACKAGE}_${VERSION}_${ARCH}.changes
-        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../*.changes ../*.buildinfo ../*.deb $TARGET_DIR
-        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../*.dsc ../*.debian.tar.* $TARGET_DIR
-        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../*.orig.tar.gz $TARGET_DIR
+        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../${PACKAGE}_${VERSION}*.changes ../${PACKAGE}_${VERSION}*.buildinfo ../${PACKAGE}_${VERSION}*.deb $TARGET_DIR
+        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../${PACKAGE}_${VERSION}*.dsc ../${PACKAGE}_${VERSION}*.debian.tar.* $TARGET_DIR
+        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../${PACKAGE}_${VERSION}*.tar.gz $TARGET_DIR
         ;;
     *)
         dpkg-buildpackage -B -us -uc
         mv -f ../${PACKAGE}_${VERSION}_${ARCH}.changes ../${PACKAGE}_${VERSION}_${ARCH}.changes.orig
         awk '$3!="debug" {print}' ../${PACKAGE}_${VERSION}_${ARCH}.changes.orig > ../${PACKAGE}_${VERSION}_${ARCH}.changes
-        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../*.changes ../*.buildinfo ../*.deb $TARGET_DIR
+        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../${PACKAGE}_${VERSION}*.changes ../*.buildinfo ../${PACKAGE}_${VERSION}*.deb $TARGET_DIR
         ;;
 esac

@@ -12,6 +12,6 @@ case ${ARCH} in
         awk '$3!="debug" {print}' ../${PACKAGE}_${VERSION}_${ARCH}.changes.orig > ../${PACKAGE}_${VERSION}_${ARCH}.changes
         scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../${PACKAGE}_${VERSION}*.changes ../${PACKAGE}_${VERSION}*.buildinfo ../${PACKAGE}_${VERSION}*.deb $TARGET_DIR
         scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../${PACKAGE}_${VERSION}*.dsc ../${PACKAGE}_${VERSION}*.debian.tar.* $TARGET_DIR
-        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../${PACKAGE}_${VERSION}*.tar.gz $TARGET_DIR
+        scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ../${PACKAGE}_${VERSION_BASE}.orig.tar.gz $TARGET_DIR
         ;;
 esac

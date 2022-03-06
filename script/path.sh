@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SCRIPT_DIR=$(pwd)
+SCRIPT_DIR=$(cd "$(dirname $0)"; pwd)
 PACKAGE=$(echo $(basename $SCRIPT_DIR) | sed 's/ma-//g')
 VERSION=$(head -1 $SCRIPT_DIR/debian/changelog | sed 's/1://g' | cut -d ' ' -f 2 | sed 's/[()]//g')
 VERSION_BASE=$(echo $VERSION | cut -d '-' -f 1)
@@ -15,7 +15,7 @@ if [ -x /usr/bin/lsb_release ]; then
     if [ -z "$DATA_DIR" ]; then
       DATA_DIR="$HOME/malive/data"
     fi
-    BUILD_DIR="$SCRIPT_DIR/build"
+    BUILD_DIR="$(pwd)/build"
     TARGET_DIR="$DATA_DIR/pkg/$(lsb_release -s -c)"
     SOURCE_DIR="$DATA_DIR/src"
     echo "BUILD_DIR: $BUILD_DIR"

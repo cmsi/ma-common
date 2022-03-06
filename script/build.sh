@@ -9,7 +9,7 @@ cd ${BUILD_DIR}
 ARCH=$(dpkg --print-architecture)
 case ${ARCH} in
   amd64)
-    dpkg-buildpackage -us -uc
+    dpkg-buildpackage -us -uc -S
     ;;
   *)
     dpkg-buildpackage -B -us -uc

@@ -4,6 +4,9 @@ test -z ${BUILD_DIR} && exit 127
 
 CP="scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null"
 
+export OMPI_ALLOW_RUN_AS_ROOT=1
+export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+
 mkdir -p ${TARGET_DIR}
 cd ${BUILD_DIR}
 ARCH=$(dpkg --print-architecture)

@@ -1,19 +1,29 @@
 #!/bin/sh
 . $(dirname $0)/path.sh
-set -x
+test -z ${BUILD_DIR} && exit 127
 
-mkdir -p ${BUILD_DIR}
-cd $(dirname ${BUILD_DIR})
-scp -p -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null ${DATA_DIR}/src/${PACKAGE}_${VERSION_BASE}.orig.tar.gz .
-if [ -f ${PACKAGE}_${VERSION_BASE}.orig.tar.gz ]; then
-  tar zxf ${PACKAGE}_${VERSION_BASE}.orig.tar.gz -C build --strip-components=1
-  cd ${BUILD_DIR}
-  mkdir -p debian
-  cp -rp ${SCRIPT_DIR}/debian/* debian/
-  if [ -d ${SCRIPT_DIR}/debian-$(lsb_release -s -c) ]; then
-    cp -rp ${SCRIPT_DIR}/debian-$(lsb_release -s -c)/* debian/
-  fi
-  apt-get update
-  apt-get -y upgrade
-  dpkg-checkbuilddeps 2>&1 | sed 's/dpkg-checkbuilddeps.*dependencies: //' | xargs apt-get -y install
+RELEASE=$(lsb_release -s -c)
+if [ -f ${SCRIPT_DIR}/no-${RELEASE} ]; then
+  exit 0
 fi
+
+CP="scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null"
+
+set -x
+rm -rf ${BUILD_DIR}/${PACKAGE}
+mkdir -p ${BUILD_DIR}
+cd ${BUILD_DIR}
+mkdir ${PACKAGE}
+if [ ! -f ${SCRIPT_DIR}/no-src ]; then
+  ${CP} ${DATA_DIR}/src/${PACKAGE}_${VERSION_BASE}.orig.tar.gz .
+  tar zxf ${PACKAGE}_${VERSION_BASE}.orig.tar.gz -C ${PACKAGE} --strip-components=1
+fi
+cd ${PACKAGE}
+mkdir -p debian
+cp -rp ${SCRIPT_DIR}/debian/* debian/
+if [ -d ${SCRIPT_DIR}/debian-${RELEASE} ]; then
+  cp -rp ${SCRIPT_DIR}/debian-${RELEASE}/* debian/
+fi
+sudo apt-get update
+sudo apt-get -y upgrade
+dpkg-checkbuilddeps 2>&1 | sed 's/dpkg-checkbuilddeps.*dependencies: //' | sudo xargs apt-get -y install

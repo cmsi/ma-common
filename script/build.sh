@@ -4,12 +4,16 @@ test -z ${BUILD_DIR} && exit 127
 
 CP="scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null"
 
-mkdir -p ${TARGET_DIR}
-cd ${BUILD_DIR}
+set -x
+cd ${BUILD_DIR}/${PACKAGE}
 ARCH=$(dpkg --print-architecture)
 case ${ARCH} in
   amd64)
-    dpkg-buildpackage -us -uc
+    if [ ${MA_INCLUDE_SOURCE} = 1 ]; then
+      dpkg-buildpackage -us -uc -sa
+    else
+      dpkg-buildpackage -us -uc
+    fi
     ;;
   *)
     dpkg-buildpackage -B -us -uc

@@ -14,7 +14,11 @@ rm -rf ${BUILD_DIR}/${PACKAGE}
 mkdir -p ${BUILD_DIR}
 cd ${BUILD_DIR}
 mkdir ${PACKAGE}
-if [ ! -f ${SCRIPT_DIR}/no-src ]; then
+if [ -f ${SCRIPT_DIR}/no-src ]; then
+  if [ -d ${SCRIPT_DIR}/files ]; then
+    cp -rp ${SCRIPT_DIR}/files/* ${PACKAGE}
+  fi
+else
   ${CP} ${DATA_DIR}/src/${PACKAGE}_${VERSION_BASE}.orig.tar.gz .
   tar zxf ${PACKAGE}_${VERSION_BASE}.orig.tar.gz -C ${PACKAGE} --strip-components=1
 fi
